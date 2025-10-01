@@ -8,17 +8,16 @@ pipeline {
             }
         }
 
-        stage('Test Build') {
+        stage('Build Docker Image') {
             steps {
-                sh 'echo "Laravel project build successful!"'
+                sh 'docker build -t hitendra369/my-jenkins-app:latest .'
+                sh 'docker images'
             }
         }
 
-        stage('Build Docker Image') {
+        stage('Test Build') {
             steps {
-                script {
-                    image = docker.build('hitendra369/my-jenkins-app:latest')
-                }
+                sh 'echo "Laravel project build successful!"'
             }
         }
 
