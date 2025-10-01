@@ -14,15 +14,29 @@ pipeline {
             }
         }
 
-        stage('Deploy') {
+        stage('Build Docker Image') {
             steps {
                 sh '''
-                    git config user.name "Hitendra Kakadiya"
-                    git config user.email "hitendrak@itpathsolutions.com"
-                    git add .
-                    git commit -m "Automated deployment by Jenkins" || echo "Nothing to commit"
-                    git push origin HEAD
+                    docker build -t <your-dockerhub-username>/<your-image-name>:latest .
                 '''
+            }
+        }
+
+        stage('Push Docker Image') {
+            steps {
+                withCredentials([
+                    usernamePassword(
+                        credentialsId: 'DOCKERHUB_CREDENTIALS',
+                        usernameVariable: 'DOCKERHUB_USERNAME',
+                        passwordVariable: 'DOCKERHUB_PASSWORD'
+                    )
+                ]) {
+                    sh '''
+                        echo "$DOCKERHUB_PASSWORD" | docker login -u "$DOCKERHUB_USERNAME" --password-stdin
+                        docker push <your-dockerhub-username>/<your-image-name>:latest
+                        docker logout
+                    '''
+                }
             }
         }
     }
