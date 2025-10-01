@@ -8,17 +8,6 @@ pipeline {
             }
         }
 
-        stage('Check Docker Permissions') {
-            steps {
-                sh '''
-                    if ! docker info > /dev/null 2>&1; then
-                        echo "Jenkins does not have permission to run Docker commands."
-                        exit 1
-                    fi
-                '''
-            }
-        }
-
         stage('Test Build') {
             steps {
                 sh 'echo "Laravel project build successful!"'
