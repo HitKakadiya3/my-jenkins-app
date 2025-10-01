@@ -20,15 +20,5 @@ pipeline {
                 sh 'echo "Laravel project build successful!"'
             }
         }
-
-        stage('Push Docker Image') {
-            steps {
-                script {
-                    docker.withRegistry('https://index.docker.io/v1/', 'DOCKERHUB_CREDENTIALS') {
-                        image.push('latest')
-                    }
-                }
-            }
-        }
     }
 }
