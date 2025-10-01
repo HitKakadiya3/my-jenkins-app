@@ -17,7 +17,7 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 sh '''
-                    docker build -t <your-dockerhub-username>/<your-image-name>:latest .
+                    docker build -t hitendra369/my-jenkins-app:latest .
                 '''
             }
         }
@@ -33,7 +33,7 @@ pipeline {
                 ]) {
                     sh '''
                         echo "$DOCKERHUB_PASSWORD" | docker login -u "$DOCKERHUB_USERNAME" --password-stdin
-                        docker push <your-dockerhub-username>/<your-image-name>:latest
+                        docker push hitendra369/my-jenkins-app:latest
                         docker logout
                     '''
                 }
